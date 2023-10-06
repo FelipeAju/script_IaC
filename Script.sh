@@ -1,45 +1,59 @@
 #!/bin/bash
-echo "Apagar diretórios, arquivos, usuários, e grupos; criar diretórios, grupos e usuários"
 
-rm -preserve-root
+
+echo "criar diretórios"
 
 mkdir /publico
 mkdir /adm
 mkdir /ven
 mkdir /sec
 
+
+echo "criar grupos"
+
 groupadd GRP_ADM
 groupadd GRP_VEN
 groupadd GRP_SEC
 
 
-useradd carlos -c "Carlos" -s /bin/bash -m
+echo "criar usuários"
+
+useradd carlos -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
 passwd carlos -e
 
-useradd maria -c "Maria" -s /bin/bash -m
+useradd maria -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
 passwd maria -e
 
-useradd joao_ -c "João" -s /bin/bash -m
+useradd joao -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
 passwd joao_ -e
 
-useradd debora -c "Débora" -s /bin/bash -m
+useradd debora -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
 passwd debora -e
 
-useradd sebastiana -c "Sebastiana" -s /bin/bash -m
+useradd sebastiana -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
 passwd sebastiana -e
 
-useradd roberto -c "Roberto" -s /bin/bash -m
+useradd roberto -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
 passwd roberto -e
 
-useradd josefina -c "Josefina" -s /bin/bash -m
-passwd josefina -e
+useradd josefina -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
+passwd josefina -e]
 
-useradd amanda -c "Amanda" -s /bin/bash -m
+useradd amanda -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
 passwd amanda -e
 
-useradd rogerio -c "Rogério" -s /bin/bash -m
+useradd rogerio -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
 passwd rogerio -e
 
+
+echo "Especificando o dono"
+
+chown root:GRP_ADM /adm
+chown root:GRP_VEN /ven
+chown root:GRP_SEC /sec
+
+
+echo "Especificando as permissões"
 
 chmod 777 /publico/
 chmod 770 /adm/
